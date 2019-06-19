@@ -6,16 +6,16 @@ class Dataplot:
 		self.fig = fig
 		self.plots = {}
 
-	def add_subplot(name, title):
+	def add_subplot(self, name, title):
 		ax = self.fig.add_subplot(1, 1, 1)
 		x = []
 		y = []
 		self.plots[name] = {'title': title, 'ax': ax, 'x': x, 'y': y}
 
-	def get_plots():
+	def get_plots(self):
 		return self.plots
 
-	def plot(name, data):
+	def plot(self, name, data):
 		title = self.plots[name].title
 		ax = self.plots[name].ax
 		x = self.plots[name].x
@@ -31,6 +31,6 @@ class Dataplot:
 		ax.plot(x, y)
 		ax.set_title(title)
 
-	def animate(func):
+	def animate(self, func):
 		for key, value in self.plots.items():
 			ani = animation.FuncAnimation(self.fig, func, fargs=(value.x, value.y), interval=1000)
