@@ -1,19 +1,25 @@
-import datetime
 import time
 import board
 import busio
 import adafruit_lsm9ds1
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-from matplotlib import style
+import dataplot
+import math
 
-fig = plt.figure()
-axis = fig.add_subplot(1, 1, 1)
-x = []
-y = []
+fig = plt.figure()									# Define Plot (For Data Visualization)
+dataplot = dataplot.Dataplot(fig)
+dataplot.add_subplot("accel_x", "Accelerometer X")
+dataplot.add_subplot("accel_y", "Accelerometer Y")
+dataplot.add_subplot("accel_z", "Accelerometer Z")
+dataplot.add_subplot("gyro_x", "Gyroscope X")
+dataplot.add_subplot("gyro_y", "Gyroscope Y")
+dataplot.add_subplot("gyro_z", "Gyroscope Z")
+dataplot.add_subplot("mag_x", "Magnetometer X")
+dataplot.add_subplot("mag_y", "Magnetometer Y")
+dataplot.add_subplot("mag_z", "Magnetometer Z")
+dataplot.add_subplot("temp", "Temperature")
 
-i2c = busio.I2C(board.SCL, board.SDA)
-sensor = adafruit_lsm9ds1.LSM9DS1_I2C(i2c)
+i2c = busio.I2C(board.SCL, board.SDA)		# Connect sensors via I2C
+sensor = adafruit_lsm9ds1.LSM9DS1_I2C(i2c)	# Identify sensor as Adafruit LSM9DS1
 
 # while True:
 # 	accel_x, accel_y, accel_z = sensor.acceleration
@@ -27,25 +33,30 @@ sensor = adafruit_lsm9ds1.LSM9DS1_I2C(i2c)
 # 	print('Gyroscope: ({0:0.3f}, {1:0.3f}, {2:0.3f})'.format(gyro_x, gyro_y, gyro_z))
 # 	print('Temperature: {0:0.3f}C'.format(temp))
 
+# Realtime Sensor Data Plotting
 def animate(i, x, y):
 	accel_x, accel_y, accel_z = sensor.acceleration
 	mag_x, mag_y, mag_z = sensor.magnetic
 	gyro_x, gyro_y, gyro_z = sensor.gyro
 	temp = sensor.temperature
 
-	x.append(datetime.datetime.now().strftime('%H:%M:%S:%f'))
-	y.append(mag_x)
+	dataplot.plot("accel_x", accel_x)
+	dataplot.plot("accel_y", accel_y)
+	dataplot.plot("accel_z", accel_z)
 
-	x = x[-20:]
-	y = y[-20:]
+	dataplot.plot("gyro_x", gyro_x)
+	dataplot.plot("gyro_y", gyro_y)
+	dataplot.plot("gyro_z", gyro_z)
 
-	axis.clear()
-	axis.plot(x, y)
+	dataplot.plot("mag_x", mag_x)
+	dataplot.plot("mag_y", mag_y)
+	dataplot.plot("mag_z", mag_z)
+
+	dataplot.plot("temp", temp)
 
 	plt.xticks(rotation=45, ha='right')
 	plt.subplots_adjust(bottom=0.30)
-	plt.title('Gyroscope')
-	plt.ylabel('Mag')
+	plt.subplots_adjust(hspace=0.6)
 	
 	print("\033[2J")	
 	print('\033[HAcceleration: ({0:0.3f}, {1:0.3f}, {2:0.3f})'.format(accel_x, accel_y, accel_z))
@@ -53,5 +64,5 @@ def animate(i, x, y):
 	print('Gyroscope: ({0:0.3f}, {1:0.3f}, {2:0.3f})'.format(gyro_x, gyro_y, gyro_z))
 	print('Temperature: {0:0.3f}C'.format(temp))
 
-ani = animation.FuncAnimation(fig, animate, fargs=(x, y), interval=1000)
+dataplot.animate(animate)
 plt.show()
