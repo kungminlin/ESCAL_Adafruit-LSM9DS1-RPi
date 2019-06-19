@@ -37,11 +37,11 @@ while True:
 	temp = sensor.temperature
 
 	print("\033[2J")	
-	print('\033[HAcceleration: ({0:0.3f}, {1:0.3f}, {2:0.3f})'.format(accel_x, accel_y, accel_z))
-	print('Magnetometer: ({0:0.3f}, {1:0.3f}, {2:0.3f})'.format(mag_x, mag_y, mag_z))
+	print('\033[HAcceleration: ({0:10.3f}, {1:10.3f}, {2:10.3f})'.format(accel_x, accel_y, accel_z))
+	print('Magnetometer: ({0:10.3f}, {1:10.3f}, {2:10.3f})'.format(mag_x, mag_y, mag_z))
 	# print('Direction: {0:0.3f}'.format())
-	print('Gyroscope: ({0:0.3f}, {1:0.3f}, {2:0.3f})'.format(gyro_x, gyro_y, gyro_z))
-	print('Temperature: {0:0.3f}C'.format(temp))
+	print('Gyroscope: ({0:10.3f}, {1:10.3f}, {2:10.3f})'.format(gyro_x, gyro_y, gyro_z))
+	print('Temperature: {0:10.3f}C'.format(temp))
 	print('Time Elapsed: {0:0.2f}s'.format(time.time()-start_time))
 
 # Realtime Sensor Data Plotting
