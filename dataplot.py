@@ -11,12 +11,15 @@ class Dataplot:
 		ax = self.fig.add_subplot(1, 1, 1)
 		x = []
 		y = []
-		self.plots[name] = {'title': title, 'ax': ax, 'x': x, 'y': y, 'plot': None, 'datasource': None}
+		self.plots[name] = {'title': title, 'ax': ax, 'x': x, 'y': y, 'plot': None}
 
 	def get_plots(self):
 		return self.plots
 
 	def update_data(self, name, data):
+		if self.plots[name]['plot'] is None:
+			self.plots[name]['plot'] = self.plots[name]['ax'].plot(datetime.datetime.now().strftime('%H:%M:%S:%f'), [data])
+			return
 		self.plots[name]['x'].append(datetime.datetime.now().strftime('%H:%M:%S:%f'))
 		self.plots[name]['y'].append(data)
 		self.plots[name]['x'] = self.plots[name]['x'][-20:]
