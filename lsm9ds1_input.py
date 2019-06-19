@@ -86,6 +86,6 @@ def animate(i):
 	print('Gyroscope: ({0:0.3f}, {1:0.3f}, {2:0.3f})'.format(gyro_x, gyro_y, gyro_z))
 	print('Temperature: {0:0.3f}C'.format(temp))
 
-ani = animation.FuncAnimation(self.fig, animate, interval=20)
+ani = animation.FuncAnimation(fig, animate, interval=20)
 # dataplot.animate(animate)
 plt.show()
