@@ -37,14 +37,14 @@ while True:
 	temp = sensor.temperature
 
 	print("\033[2J")	
-	print('\033[H{0:15s} ({1:7.3f}, {2:7.3f}, {3:7.3f})'.format('Acceleration:', accel_x, accel_y, accel_z))
-	print('{0:15s} ({1:7.3f}, {2:7.3f}, {3:7.3f})'.format('Magnetometer:', mag_x, mag_y, mag_z))
-	# print('Direction: {0:0.3f}'.format())
-	print('{0:15s} ({1:7.3f}, {2:7.3f}, {3:7.3f})'.format('Gyroscope:', gyro_x, gyro_y, gyro_z))
-	print('{0:15s} {1:7.3f}C'.format('Temperature:', temp))
-	print('{0:15s} {1:0.2f}s'.format('Time Elapsed:', time.time()-start_time))
+	print('\033[H{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Acceleration:', accel_x, accel_y, accel_z+9.8)) # Accounting for Acceleration due to Gravity
+	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Magnetometer:', mag_x, mag_y, mag_z))
+	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Gyroscope:', gyro_x, gyro_y, gyro_z))
+	print('{0:15s} {1:8.3f}C'.format('Temperature:', temp))
+	print('{0:15s} {1:8.2f}s'.format('Time Elapsed:', time.time()-start_time))
 	print('\n\n')
-	print('Direction: {0:>6s}'.format('Left' if gyro_z < 0 else 'Right'))
+	print('{0:15s} {1:>8s}'.format('Turn:', 'Right' if gyro_z < 0 else 'Left'))
+	print('{0:15s} {1:>8s}N'.format('Heading:', math.atan2(mag_y, mag_x) * 180 / math.pi))
 	time.sleep(0.02)
 
 # Realtime Sensor Data Plotting
