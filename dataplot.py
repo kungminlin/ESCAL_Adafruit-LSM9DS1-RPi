@@ -17,10 +17,10 @@ class Dataplot:
 		return self.plots
 
 	def plot(self, name, data):
-		title = self.plots[name].title
-		ax = self.plots[name].ax
-		x = self.plots[name].x
-		y = self.plots[name].y
+		title = self.plots[name]['title']
+		ax = self.plots[name]['ax']
+		x = self.plots[name]['x']
+		y = self.plots[name]['y']
 
 		x.append(datetime.datetime.now().strftime('%H:%M:%S:%f'))
 		y.append(data)
@@ -34,4 +34,5 @@ class Dataplot:
 
 	def animate(self, func):
 		for key, value in self.plots.items():
-			ani = animation.FuncAnimation(self.fig, func, fargs=(value['x'], value['y']), interval=1000)
+			
+		ani = animation.FuncAnimation(self.fig, func, fargs=(value['x'], value['y']), interval=1000)
