@@ -35,7 +35,7 @@ class Dataplot:
 		ax.set_title(title)
 
 	def animate_helper(self):
-		for key, value in self.plots:
+		for key, value in self.plots.items():
 			value['plot'].set_data(x.append(datetime.datetime.now().strftime('%H:%M:%S:%f')), value['datasource'])
 			value['x'] = value['x'][-20:]
 			value['y'] = value['y'][-20:]
