@@ -34,4 +34,4 @@ class Dataplot:
 
 	def animate(self, func):
 		for key, value in self.plots.items():
-			ani = animation.FuncAnimation(self.fig, func, fargs=(value.x, value.y), interval=1000)
+			ani = animation.FuncAnimation(self.fig, func, fargs=(value['x'], value['y']), interval=1000)
