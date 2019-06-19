@@ -7,19 +7,6 @@ import matplotlib.animation as animation
 import dataplot
 import math
 
-fig = plt.figure()									# Define Plot (For Data Visualization)
-dataplot = dataplot.Dataplot(fig)
-dataplot.add_subplot("accel_x", "Accelerometer X")
-dataplot.add_subplot("accel_y", "Accelerometer Y")
-dataplot.add_subplot("accel_z", "Accelerometer Z")
-dataplot.add_subplot("gyro_x", "Gyroscope X")
-dataplot.add_subplot("gyro_y", "Gyroscope Y")
-dataplot.add_subplot("gyro_z", "Gyroscope Z")
-dataplot.add_subplot("mag_x", "Magnetometer X")
-dataplot.add_subplot("mag_y", "Magnetometer Y")
-dataplot.add_subplot("mag_z", "Magnetometer Z")
-dataplot.add_subplot("temp", "Temperature")
-
 i2c = busio.I2C(board.SCL, board.SDA)		# Connect sensors via I2C
 sensor = adafruit_lsm9ds1.LSM9DS1_I2C(i2c)	# Identify sensor as Adafruit LSM9DS1
 
@@ -29,6 +16,9 @@ pos_z = 0.0
 elapsed = 0.0
 
 start_time = time.time()
+prev_gyro_x = 0
+sum_gyro_x = 0
+partial_sum_gyro_x = 0
 
 while True:
 	accel_x, accel_y, accel_z = sensor.acceleration
@@ -46,9 +36,29 @@ while True:
 	print('{0:15s}  {1:>8s}'.format('Motion:', 'Up' if accel_z+9.8 > 0 else 'Down'))
 	print('{0:15s} {1:>8s}'.format('Turn:', 'Left' if gyro_z < 0 else 'Right'))
 	print('{0:15s} {1:8.3f}N'.format('Heading:', math.atan2(mag_y, mag_x) * 180 / math.pi))
+	print('\n\n')
+	partial_sum_gyro_x += gyro_x
+	if (time.time()-start_time)%50 == 0:
+		sum_gyro_x += partial_sum_gyro_x/50
+		partial_sum_gyro_x = 0
+	print(sum_gyro_x)
+
 	time.sleep(0.02)
 
 # Realtime Sensor Data Plotting
+# fig = plt.figure()									# Define Plot (For Data Visualization)
+# dataplot = dataplot.Dataplot(fig)
+# dataplot.add_subplot("accel_x", "Accelerometer X")
+# dataplot.add_subplot("accel_y", "Accelerometer Y")
+# dataplot.add_subplot("accel_z", "Accelerometer Z")
+# dataplot.add_subplot("gyro_x", "Gyroscope X")
+# dataplot.add_subplot("gyro_y", "Gyroscope Y")
+# dataplot.add_subplot("gyro_z", "Gyroscope Z")
+# dataplot.add_subplot("mag_x", "Magnetometer X")
+# dataplot.add_subplot("mag_y", "Magnetometer Y")
+# dataplot.add_subplot("mag_z", "Magnetometer Z")
+# dataplot.add_subplot("temp", "Temperature")
+
 # def animate(i):
 # 	accel_x, accel_y, accel_z = sensor.acceleration
 # 	mag_x, mag_y, mag_z = sensor.magnetic
