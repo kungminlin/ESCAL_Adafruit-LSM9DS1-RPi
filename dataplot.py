@@ -22,17 +22,27 @@ class Dataplot:
 		x = self.plots[name]['x']
 		y = self.plots[name]['y']
 
-		x.append(datetime.datetime.now().strftime('%H:%M:%S:%f'))
-		y.append(data)
+		# x.append(datetime.datetime.now().strftime('%H:%M:%S:%f'))
+		# y.append(data)
 
-		x = x[-20:]
-		y = y[-20:]
+		# x = x[-20:]
+		# y = y[-20:]
+
+		self.plots[name]['datasource'] = data
 
 		ax.clear()
-		ax.plot(x, y)
+		self.plots[name]['plot'] = ax.plot(x, y)
 		ax.set_title(title)
 
+	def animate_helper(self):
+		for key, value in self.plots:
+			value['plot'].set_data(x.append(datetime.datetime.now().strftime('%H:%M:%S:%f')), value['datasource'])
+			value['x'] = value['x'][-20:]
+			value['y'] = value['y'][-20:]
+			value['ax'].clear()
+
+
+		print('hi')
+
 	def animate(self, func):
-		for key, value in self.plots.items():
-			
-		ani = animation.FuncAnimation(self.fig, func, fargs=(value['x'], value['y']), interval=1000)
+		ani = animation.FuncAnimation(self.fig, self.animate_helper(), interval=20)
