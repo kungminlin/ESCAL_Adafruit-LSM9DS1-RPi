@@ -3,6 +3,7 @@ import board
 import busio
 import adafruit_lsm9ds1
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 import dataplot
 import math
 
