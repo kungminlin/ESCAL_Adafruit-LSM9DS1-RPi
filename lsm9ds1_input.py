@@ -2,6 +2,7 @@ import time
 import board
 import busio
 import adafruit_lsm9ds1
+import matplotlib.pyplot as plt
 import dataplot
 import math
 
