@@ -35,7 +35,7 @@ while True:
 	# print('Direction: {0:0.3f}'.format())
 	print('Gyroscope: ({0:0.3f}, {1:0.3f}, {2:0.3f})'.format(gyro_x, gyro_y, gyro_z))
 	print('Temperature: {0:0.3f}C'.format(temp))
-	time.sleep(20)
+	time.sleep(0.02)
 
 # Realtime Sensor Data Plotting
 # def animate(i):
