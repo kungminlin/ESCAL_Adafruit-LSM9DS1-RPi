@@ -43,7 +43,7 @@ while True:
 	print('{0:15s} {1:8.3f}C'.format('Temperature:', temp))
 	print('{0:15s} {1:8.2f}s'.format('Time Elapsed:', time.time()-start_time))
 	print('\n\n')
-	print('{0:15s} {1:>8s}'.format('Turn:', 'Right' if gyro_z < 0 else 'Left'))
+	print('{0:15s} {1:>8s}'.format('Turn:', 'Left' if gyro_z < 0 else 'Right'))
 	print('{0:15s} {1:8.3f}N'.format('Heading:', math.atan2(mag_y, mag_x) * 180 / math.pi))
 	time.sleep(0.02)
 
