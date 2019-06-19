@@ -23,6 +23,13 @@ dataplot.add_subplot("temp", "Temperature")
 i2c = busio.I2C(board.SCL, board.SDA)		# Connect sensors via I2C
 sensor = adafruit_lsm9ds1.LSM9DS1_I2C(i2c)	# Identify sensor as Adafruit LSM9DS1
 
+pos_x = 0.0
+pos_y = 0.0
+pos_z = 0.0
+elapsed = 0.0
+
+start_time = time.time()
+
 while True:
 	accel_x, accel_y, accel_z = sensor.acceleration
 	mag_x, mag_y, mag_z = sensor.magnetic
@@ -35,7 +42,7 @@ while True:
 	# print('Direction: {0:0.3f}'.format())
 	print('Gyroscope: ({0:0.3f}, {1:0.3f}, {2:0.3f})'.format(gyro_x, gyro_y, gyro_z))
 	print('Temperature: {0:0.3f}C'.format(temp))
-	time.sleep(0.02)
+	print('Time Elapsed: {0:0.2f}s'.format(time.time()-start_time))
 
 # Realtime Sensor Data Plotting
 # def animate(i):
