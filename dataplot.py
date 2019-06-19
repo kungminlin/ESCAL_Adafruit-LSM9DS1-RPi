@@ -17,11 +17,11 @@ class Dataplot:
 		return self.plots
 
 	def update_data(self, name, data):
-		x.append(datetime.datetime.now().strftime('%H:%M:%S:%f'))
-		y.append(data)
-		x = x[-20:]
-		y = y[-20:]
-		self.plots[name]['plot'].set_data(x, y)
+		self.plots[name]['x'].append(datetime.datetime.now().strftime('%H:%M:%S:%f'))
+		self.plots[name]['y'].append(data)
+		self.plots[name]['x'] = self.plots[name]['x'][-20:]
+		self.plots[name]['y'] = self.plots[name]['y'][-20:]
+		self.plots[name]['plot'].set_data(self.plots[name]['x'], self.plots[name]['y'])
 		# ax.clear()
 
 	def animate_helper(self):
