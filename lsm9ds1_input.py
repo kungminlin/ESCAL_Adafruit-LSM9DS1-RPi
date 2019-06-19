@@ -37,12 +37,15 @@ while True:
 	temp = sensor.temperature
 
 	print("\033[2J")	
-	print('\033[HAcceleration: ({0:10.3f}, {1:10.3f}, {2:10.3f})'.format(accel_x, accel_y, accel_z))
-	print('Magnetometer: ({0:10.3f}, {1:10.3f}, {2:10.3f})'.format(mag_x, mag_y, mag_z))
+	print('\033[H{0:15s} ({1:7.3f}, {2:7.3f}, {3:7.3f})'.format('Acceleration:', accel_x, accel_y, accel_z))
+	print('{0:15s} ({1:7.3f}, {2:7.3f}, {3:7.3f})'.format('Magnetometer:', mag_x, mag_y, mag_z))
 	# print('Direction: {0:0.3f}'.format())
-	print('Gyroscope: ({0:10.3f}, {1:10.3f}, {2:10.3f})'.format(gyro_x, gyro_y, gyro_z))
-	print('Temperature: {0:10.3f}C'.format(temp))
-	print('Time Elapsed: {0:0.2f}s'.format(time.time()-start_time))
+	print('{0:15s} ({1:7.3f}, {2:7.3f}, {3:7.3f})'.format('Gyroscope:', gyro_x, gyro_y, gyro_z))
+	print('{0:15s} {1:7.3f}C'.format('Temperature:', temp))
+	print('{0:15s} {1:0.2f}s'.format('Time Elapsed:', time.time()-start_time))
+	print('\n\n')
+	print('Direction: {0:>6s}'.format('Left' if gyro_z < 0 else 'Right'))
+	time.sleep(0.02)
 
 # Realtime Sensor Data Plotting
 # def animate(i):
