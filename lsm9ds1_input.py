@@ -34,7 +34,7 @@ while True:
 			print('Gyroscope: ({0:0.3f}, {1:0.3f}, {2:0.3f})'.format(gyro_x, gyro_y, gyro_z))
 			print('Temperature: {0:0.3f}C'.format(temp))
 			time.sleep(1)
-		except socket.error, msg:
+		except:
 			print('Client connection closed.')
 			break
 
