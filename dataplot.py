@@ -11,28 +11,18 @@ class Dataplot:
 		ax = self.fig.add_subplot(1, 1, 1)
 		x = []
 		y = []
-		self.plots[name] = {'title': title, 'ax': ax, 'x': x, 'y': y}
+		self.plots[name] = {'title': title, 'ax': ax, 'x': x, 'y': y, 'plot': None, 'datasource': None}
 
 	def get_plots(self):
 		return self.plots
 
-	def plot(self, name, data):
-		title = self.plots[name]['title']
-		ax = self.plots[name]['ax']
-		x = self.plots[name]['x']
-		y = self.plots[name]['y']
-
-		# x.append(datetime.datetime.now().strftime('%H:%M:%S:%f'))
-		# y.append(data)
-
-		# x = x[-20:]
-		# y = y[-20:]
-
-		self.plots[name]['datasource'] = data
-
-		ax.clear()
-		self.plots[name]['plot'] = ax.plot(x, y)
-		ax.set_title(title)
+	def update_data(self, name, data):
+		x.append(datetime.datetime.now().strftime('%H:%M:%S:%f'))
+		y.append(data)
+		x = x[-20:]
+		y = y[-20:]
+		self.plots[name]['plot'].set_data(x, y)
+		# ax.clear()
 
 	def animate_helper(self):
 		for key, value in self.plots.items():
