@@ -18,7 +18,7 @@ class Dataplot:
 
 	def update_data(self, name, data):
 		if self.plots[name]['plot'] is None:
-			self.plots[name]['plot'] = self.plots[name]['ax'].plot(datetime.datetime.now().strftime('%H:%M:%S:%f'), [data])
+			self.plots[name]['plot'], = self.plots[name]['ax'].plot(datetime.datetime.now().strftime('%H:%M:%S:%f'), [data])
 			return
 		self.plots[name]['x'].append(datetime.datetime.now().strftime('%H:%M:%S:%f'))
 		self.plots[name]['y'].append(data)
