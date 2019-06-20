@@ -15,9 +15,9 @@ class Dataplot:
 
 	def update_data(self, name, x, y):
 		self.plots[name]['x'].append(x)
-		self.plots[name]['x'][-self.limit:]
+		self.plots[name]['x'] = self.plots[name]['x'][-self.limit:]
 		self.plots[name]['y'].append(y)
-		self.plots[name]['y'][-self.limit:]
+		self.plots[name]['y'] = self.plots[name]['y'][-self.limit:]
 		self.plots[name]['ax'].clear()
 		self.plots[name]['ax'].plot(self.plots[name]['x'], self.plots[name]['y'], '.')
 
