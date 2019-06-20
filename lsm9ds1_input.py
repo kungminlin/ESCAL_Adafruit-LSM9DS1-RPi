@@ -28,13 +28,12 @@ elapsed = 0.0
 start_time = time.time()
 gyro_rotation = {'x': 0, 'y': 0, 'z': 0}
 
+# 3D Simulation Window
 pygame.init()
 display = (800,600)
 pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
-
 gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
-
-glTranslatef(0.0,0.0, -5)
+glTranslatef(5,5,0.0)
         
 
 while True:
@@ -69,11 +68,13 @@ while True:
 	print('{0:15s} {1:8.3f}'.format('Roll:', atan2(accel_y, accel_z) * 57.3))
 	print('{0:15s} {1:8.3f}'.format('Pitch:', atan2((-accel_x), math.sqrt(accel_y*accel_y+accel_z*accel+z)) * 57.3))
 
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT:
-			pygame.quit()
-			quit()
+	# Quit Window Event
+	# for event in pygame.event.get():
+	# 	if event.type == pygame.QUIT:
+	# 		pygame.quit()
+	# 		quit()
 
+	# 3D Simulation
 	glRotatef(gyro_x*20/1000, 1, 0, 0)
 	glRotatef(gyro_y*20/1000, 0, 1, 0)
 	glRotatef(gyro_z*20/1000, 0, 0, 1)
