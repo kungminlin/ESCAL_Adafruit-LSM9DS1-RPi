@@ -104,6 +104,11 @@ while True:
 	gyro_x, gyro_y, gyro_z = sensor.gyro
 	temp = sensor.temperature
 
+	kalman_update(np.array([accel_x, accel_y, accel_z]))
+	pos_x, pos_y, pos_z = x[0], x[1], x[2]
+	vel_x, vel_y, vel_z = x[3], x[4], x[5]
+	accel_x, accel_y, accel_z = x[6], x[7], x[8]
+
 	# Normalize Acceleration
 	accel_magnitude = math.sqrt(math.pow(accel_x, 2) + math.pow(accel_y, 2) + math.pow(accel_z, 2))
 	unit_accel_x = accel_x/accel_magnitude
@@ -111,7 +116,7 @@ while True:
 	unit_accel_z = accel_z/accel_magnitude
 
 	print("\033[2J")	
-	print('\033[H{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Acceleration:', accel_x, accel_y, accel_z+9.8))	# Acceleration (Accounting for Acceleration due to Gravity)
+	print('\033[H{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Acceleration:', accel_x, accel_y, accel_z))	# Acceleration (Accounting for Acceleration due to Gravity)
 	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Magnetometer:', mag_x, mag_y, mag_z))					# Magnetometer
 	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Gyroscope:', gyro_x, gyro_y, gyro_z))					# Gyroscope
 	print('{0:15s} {1:8.3f}C'.format('Temperature:', temp))															# Temperature
@@ -141,10 +146,10 @@ while True:
 	print('Rotations with Accelerometer')
 	print('{0:15s} {1:8.3f}'.format('Roll:', roll))
 	print('{0:15s} {1:8.3f}'.format('Pitch:', pitch))
+	print('\n')
 
-	kalman_update(np.array([accel_x, accel_y, accel_z]))
-	print(x)
-
+	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Position:', pos_x, pos_y, pos_z))
+	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Velocity:', vel_x, vel_y, vel_z))
 
 	# Quit Window Event
 	for event in pygame.event.get():
