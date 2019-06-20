@@ -37,8 +37,7 @@ def Cube():
             glVertex3fv(verticies[vertex])
     glEnd()
 
-
-def main():
+def visualize():
     pygame.init()
     display = (800,600)
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
@@ -53,11 +52,8 @@ def main():
                 pygame.quit()
                 quit()
 
-        glRotatef(1, 3, 1, 1)
+        # glRotatef(-5, 0, 0, 1)
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
         Cube()
         pygame.display.flip()
         pygame.time.wait(10)
-
-
-main()

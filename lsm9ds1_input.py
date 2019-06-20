@@ -5,6 +5,7 @@ import adafruit_lsm9ds1
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import dataplot
+import visualization
 import math
 
 i2c = busio.I2C(board.SCL, board.SDA)		# Connect sensors via I2C
