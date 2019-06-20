@@ -97,8 +97,9 @@ while True:
 	# glRotatef(gyro_y*20/1000, 0, 1, 0)
 	# glRotatef(gyro_z*20/1000, 0, 0, 1)
 	# Accelerometer Rotation
-	glRotatef(roll-prev_rot_x, 1, 0, 0)
-	glRotatef(pitch-prev_rot_y, 0, 1, 0)
+	glLoadIdentity()
+	glRotatef(roll, 1, 0, 0)
+	glRotatef(pitch, 0, 1, 0)
 	prev_rot_x = roll
 	prev_rot_y = pitch
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
