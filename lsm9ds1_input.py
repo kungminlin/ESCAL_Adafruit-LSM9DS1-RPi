@@ -95,6 +95,8 @@ while True:
 	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Position:', pos_x, pos_y, pos_z))
 	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Velocity:', vel_x, vel_y, vel_z))
 	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Velocity:', accel_x, accel_y, accel_z))
+	print('\n')
+	print(kalman_filter.P)
 
 	# Quit Window Event
 	for event in pygame.event.get():

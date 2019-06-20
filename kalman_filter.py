@@ -40,9 +40,15 @@ P = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0],				# Co-Variance Matrix
 			 [0, 0, 0, 0, 0, 0, 0, 0, 0],
 			 [0, 0, 0, 0, 0, 0, 0, 0, 0]])
 
-H = np.array([[0, 0, 0, 0, 0, 0, 1, 0, 0],				# Observation Matrix
-			  [0, 0, 0, 0, 0, 0, 0, 1, 0],
-			  [0, 0, 0, 0, 0, 0, 0, 0, 1]])
+H = np.array([[0, 0, 0],								# Observation Matrix
+			  [0, 0, 0],
+			  [0, 0, 0],
+			  [0, 0, 0],
+			  [0, 0, 0],
+			  [0, 0, 0],
+			  [1, 0, 0],
+			  [0, 1, 0],
+			  [0, 0, 1]])
 
 R = np.array([[5, 0, 0],								# Measurement Noise Covariance Matrix
 			  [0, 5, 0],
