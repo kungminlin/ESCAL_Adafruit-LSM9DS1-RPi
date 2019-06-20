@@ -26,7 +26,7 @@ pos_z = 0.0
 elapsed = 0.0
 
 start_time = time.time()
-rotation = {'x': 0, 'y': 0, 'z': 0}
+gyro_rotation = {'x': 0, 'y': 0, 'z': 0}
 
 pygame.init()
 display = (800,600)
@@ -55,13 +55,19 @@ while True:
 	print('{0:15s} {1:8.3f}N'.format('Heading:', math.atan2(mag_y, mag_x) * 180 / math.pi))
 	print('\n')
 	
-	rotation['x'] += gyro_x*20/1000
-	rotation['y'] += gyro_y*20/1000
-	rotation['z'] += gyro_z*20/1000
+	gyro_rotation['x'] += gyro_x*20/1000
+	gyro_rotation['y'] += gyro_y*20/1000
+	gyro_rotation['z'] += gyro_z*20/1000
 
+	print('Rotations with Gyroscope')
 	print('{0:15s} {1:8.3f}'.format('X Rotation:', rotation['x']))
 	print('{0:15s} {1:8.3f}'.format('Y Rotation:', rotation['y']))
 	print('{0:15s} {1:8.3f}'.format('Z Rotation:', rotation['z']))
+
+	print('\n')
+	print('Rotations with Accelerometer')
+	print('{0:15s} {1:8.3f}'.format('Roll:', atan2(accel_y, accel_z) * 57.3))
+	print('{0:15s} {1:8.3f}'.format('Pitch:', atan2((-accel_x), math.sqrt(accel_y*accel_y+accel_z*accel+z)) * 57.3))
 
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
