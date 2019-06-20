@@ -69,9 +69,9 @@ while True:
 	print('{0:15s} {1:8.3f}'.format('Pitch:', math.atan2((-accel_x), math.sqrt(accel_y*accel_y+accel_z*accel_z)) * 57.3))
 
 	# Quit Window Event
-	# for event in pygame.event.get():
-	# 	if event.type == pygame.QUIT:
-	# 		pygame.quit()
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT:
+			pygame.quit()
 	# 		quit()
 
 	# 3D Simulation
