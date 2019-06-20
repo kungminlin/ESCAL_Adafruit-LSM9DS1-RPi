@@ -87,6 +87,8 @@ R = np.array([[5, 0, 0],								# Measurement Noise Covariance Matrix
 			  [0, 0, 5]])
 
 def kalman_update(new_state):
+	global x
+	global P
 	x = A.dot(x)
 	P = A.dot(P).dot(A.T) + Q
 	y = new_state - H.dot(x) 							# Innovation Factor
