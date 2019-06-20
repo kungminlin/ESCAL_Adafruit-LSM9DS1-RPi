@@ -21,8 +21,8 @@ i2c = busio.I2C(board.SCL, board.SDA)		# Connect sensors via I2C
 sensor = adafruit_lsm9ds1.LSM9DS1_I2C(i2c)	# Identify sensor as Adafruit LSM9DS1
 
 # Initialize State
-pos_x, pos_y, pos_z = 0.0
-roll, pitch = 0.0
+pos_x, pos_y, pos_z = 0.0, 0.0, 0.0
+roll, pitch = 0.0, 0.0
 elapsed = 0.0
 
 start_time = time.time()
