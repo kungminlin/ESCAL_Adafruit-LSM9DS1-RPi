@@ -54,7 +54,7 @@ A = np.array([[1, 0, 0, 0, 0, 0, 0, 0, 0],				# State Transition Matrix
 			  [0, 0.5*dt*dt, 0, 0, dt, 0, 0, 1, 0],
 			  [0, 0, 0.5*dt*dt, 0, 0, dt, 0, 0, 1]])
 
-Q = np.array([0.01, 0, 0, 0, 0, 0, 0, 0, 0],			# Process Noise Co-Variance Matrix
+Q = np.array([[0.01, 0, 0, 0, 0, 0, 0, 0, 0],			# Process Noise Co-Variance Matrix
 			 [0, 0.01, 0, 0, 0, 0, 0, 0, 0],
 			 [0, 0, 0.01, 0, 0, 0, 0, 0, 0],
 			 [0, 0, 0, 0.01, 0, 0, 0, 0, 0],
@@ -62,7 +62,7 @@ Q = np.array([0.01, 0, 0, 0, 0, 0, 0, 0, 0],			# Process Noise Co-Variance Matri
 			 [0, 0, 0, 0, 0, 0.01, 0, 0, 0],
 			 [0, 0, 0, 0, 0, 0, 0.01, 0, 0],
 			 [0, 0, 0, 0, 0, 0, 0, 0.01, 0],
-			 [0, 0, 0, 0, 0, 0, 0, 0, 0.01])
+			 [0, 0, 0, 0, 0, 0, 0, 0, 0.01]])
 
 x = np.array([pos_x, pos_y, pos_z, 						# State Model
 			  vel_x, vel_y, vel_z, 
