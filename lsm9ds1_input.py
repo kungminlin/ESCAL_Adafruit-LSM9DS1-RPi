@@ -37,10 +37,7 @@ while True:
 	print('{0:15s} {1:>8s}'.format('Turn:', 'Left' if gyro_z < 0 else 'Right'))
 	print('{0:15s} {1:8.3f}N'.format('Heading:', math.atan2(mag_y, mag_x) * 180 / math.pi))
 	print('\n\n')
-	partial_sum_gyro_x += gyro_x
-	if round(time.time()-start_time, 2)%1.00 == 0:
-		sum_gyro_x += partial_sum_gyro_x/50
-		partial_sum_gyro_x = 0
+	sum_gyro_x += gyro_x*20/1000
 	print(sum_gyro_x)
 
 	time.sleep(0.02)
