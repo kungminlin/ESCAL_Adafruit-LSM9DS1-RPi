@@ -71,7 +71,7 @@ if len(sys.argv) > 1 and sys.argv[1] == "dataplot":
 		plot.update_data("mag_y", str(datetime.datetime.now()), mag_y)
 		plot.update_data("mag_z", str(datetime.datetime.now()), mag_z)
 
-	anim = matplotlib.animation.FuncAnimation(fig, realtime_dataplot, interval=20)
+	anim = animation.FuncAnimation(fig, realtime_dataplot, interval=20)
 	plt.show()
 
 
