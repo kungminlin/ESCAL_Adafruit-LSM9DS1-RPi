@@ -65,8 +65,9 @@ while True:
 
 	print('\n')
 	print('Rotations with Accelerometer')
-	print('{0:15s} {1:8.3f}'.format('Roll:', math.atan2(accel_y, accel_z) * 57.3))
-	print('{0:15s} {1:8.3f}'.format('Pitch:', math.atan2((-accel_x), math.sqrt(accel_y*accel_y+accel_z*accel_z)) * 57.3))
+	print('{0:15s} {1:8.3f}'.format('Roll:', math.atan2(accel_y, accel_z) * 180/math.pi))
+	print('{0:15s} {1:8.3f}'.format('Pitch:', math.atan2((-accel_x), math.sqrt(accel_y*accel_y+accel_z*accel_z)) * 180/math.pi))
+	print(math.sqrt(math.pow(accel_x, 2) + math.pow(accel_y, 2) + math.pow(accel_z, 2)))
 
 	# Quit Window Event
 	for event in pygame.event.get():
