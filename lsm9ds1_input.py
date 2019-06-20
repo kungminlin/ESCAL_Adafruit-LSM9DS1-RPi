@@ -142,6 +142,9 @@ while True:
 	print('{0:15s} {1:8.3f}'.format('Roll:', roll))
 	print('{0:15s} {1:8.3f}'.format('Pitch:', pitch))
 
+	kalman_update(np.array([accel_x, accel_y, accel_z]))
+	print(x)
+
 
 	# Quit Window Event
 	for event in pygame.event.get():
@@ -164,8 +167,7 @@ while True:
 	pygame.display.flip()
 	pygame.time.wait(10)
 
-	kalman_update(np.array([accel_x, accel_y, accel_z]))
-	print(x)
+	
 
 	time.sleep(0.02)
 
