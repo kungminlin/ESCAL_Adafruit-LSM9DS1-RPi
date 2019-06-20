@@ -44,32 +44,32 @@ prev_rot_x, prev_rot_y, prev_rot_z = 0.0, 0.0, 0.0
 
 fig = plt.figure()
 
-def realtime_dataplot():
-	accel_x, accel_y, accel_z = sensor.acceleration
-	mag_x, mag_y, mag_z = sensor.magnetic
-	gyro_x, gyro_y, gyro_z = sensor.gyro
-	temp = sensor.temperature
-	dataplot.update_data("accel_x", str(datetime.datetime.now()), accel_x)
-	dataplot.update_data("accel_y", str(datetime.datetime.now()), accel_y)
-	dataplot.update_data("accel_z", str(datetime.datetime.now()), accel_z)
-	dataplot.update_data("gyro_x", str(datetime.datetime.now()), gyro_x)
-	dataplot.update_data("gyro_y", str(datetime.datetime.now()), gyro_y)
-	dataplot.update_data("gyro_z", str(datetime.datetime.now()), gyro_z)
-	dataplot.update_data("mag_x", str(datetime.datetime.now()), mag_x)
-	dataplot.update_data("mag_y", str(datetime.datetime.now()), mag_y)
-	dataplot.update_data("mag_z", str(datetime.datetime.now()), mag_z)
-
 if len(sys.argv) > 1 and sys.argv[1] == "dataplot":
 	plot = dataplot.Dataplot()
-	dataplot.add_subplot("accel_x")
-	dataplot.add_subplot("accel_y")
-	dataplot.add_subplot("accel_z")
-	dataplot.add_subplot("gyro_x")
-	dataplot.add_subplot("gyro_y")
-	dataplot.add_subplot("gyro_z")
-	dataplot.add_subplot("mag_x")
-	dataplot.add_subplot("mag_y")
-	dataplot.add_subplot("mag_z")
+	plot.add_subplot("accel_x")
+	plot.add_subplot("accel_y")
+	plot.add_subplot("accel_z")
+	plot.add_subplot("gyro_x")
+	plot.add_subplot("gyro_y")
+	plot.add_subplot("gyro_z")
+	plot.add_subplot("mag_x")
+	plot.add_subplot("mag_y")
+	plot.add_subplot("mag_z")
+
+	def realtime_dataplot():
+		accel_x, accel_y, accel_z = sensor.acceleration
+		mag_x, mag_y, mag_z = sensor.magnetic
+		gyro_x, gyro_y, gyro_z = sensor.gyro
+		temp = sensor.temperature
+		plot.update_data("accel_x", str(datetime.datetime.now()), accel_x)
+		plot.update_data("accel_y", str(datetime.datetime.now()), accel_y)
+		plot.update_data("accel_z", str(datetime.datetime.now()), accel_z)
+		plot.update_data("gyro_x", str(datetime.datetime.now()), gyro_x)
+		plot.update_data("gyro_y", str(datetime.datetime.now()), gyro_y)
+		plot.update_data("gyro_z", str(datetime.datetime.now()), gyro_z)
+		plot.update_data("mag_x", str(datetime.datetime.now()), mag_x)
+		plot.update_data("mag_y", str(datetime.datetime.now()), mag_y)
+		plot.update_data("mag_z", str(datetime.datetime.now()), mag_z)
 
 	anim = matplotlib.animation.FuncAnimation(fig, realtime_dataplot, interval=20)
 	plt.show()
