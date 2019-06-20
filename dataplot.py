@@ -7,7 +7,7 @@ class Dataplot:
 		self.plots = {}
 
 	def add_subplot(self, name, title=None, xlabel=None, ylabel=None):
-		ax = plt.subplot(2, 1, len(self.plots)+1)
+		ax = plt.subplot(9, 1, len(self.plots)+1)
 		plt.xlabel = xlabel
 		plt.ylabel = ylabel
 		ax.title.set_text(title)
