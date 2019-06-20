@@ -21,20 +21,20 @@ i2c = busio.I2C(board.SCL, board.SDA)		# Connect sensors via I2C
 sensor = adafruit_lsm9ds1.LSM9DS1_I2C(i2c)	# Identify sensor as Adafruit LSM9DS1
 
 # Initialize State
-pos_x = 0.0
-pos_y = 0.0
-pos_z = 0.0
+pos_x, pos_y, pos_z = 0.0
+roll, pitch = 0.0
 elapsed = 0.0
 
 start_time = time.time()
 gyro_rotation = {'x': 0, 'y': 0, 'z': 0}
 
-# 3D Simulation Window
+# Initialize 3D Animation
 pygame.init()
 display = (800,600)
 pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
 gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
 glTranslatef(0.0,0.0,-5)
+prev_rot_x, prev_rot_y, prev_rot_z = 0.0
         
 
 while True:
@@ -64,21 +64,24 @@ while True:
 	print('{0:15s} {1:8.3f}N'.format('Heading:', math.atan2(mag_y, mag_x) * 180 / math.pi))							# Compass Heading (Not Accounting for Magnetic Declination)
 	print('\n')
 	
+	# Rotations with Gyroscope
 	gyro_rotation['x'] += gyro_x*20/1000
 	gyro_rotation['y'] += gyro_y*20/1000
 	gyro_rotation['z'] += gyro_z*20/1000
-
-	# Rotations with Gyroscope
+	
 	print('Rotations with Gyroscope')
 	print('{0:15s} {1:8.3f}'.format('X Rotation:', gyro_rotation['x']))
 	print('{0:15s} {1:8.3f}'.format('Y Rotation:', gyro_rotation['y']))
 	print('{0:15s} {1:8.3f}'.format('Z Rotation:', gyro_rotation['z']))
+	print('\n')
 
 	# Rotations with Accelerometer
-	print('\n')
+	roll = math.atan2(unit_accel_y, unit_accel_z) * 180/math.pi
+	pitch = math.atan2((-unit_accel_x), math.sqrt(unit_accel_y*unit_accel_y+unit_accel_z*unit_accel_z)) * 180/math.pi
+	
 	print('Rotations with Accelerometer')
-	print('{0:15s} {1:8.3f}'.format('Roll:', math.atan2(unit_accel_y, unit_accel_z) * 180/math.pi))
-	print('{0:15s} {1:8.3f}'.format('Pitch:', math.atan2((-unit_accel_x), math.sqrt(unit_accel_y*unit_accel_y+unit_accel_z*unit_accel_z)) * 180/math.pi))
+	print('{0:15s} {1:8.3f}'.format('Roll:', roll))
+	print('{0:15s} {1:8.3f}'.format('Pitch:', pitch))
 
 
 	# Quit Window Event
@@ -88,9 +91,13 @@ while True:
 	# 		quit()
 
 	# 3D Simulation
-	glRotatef(gyro_x*20/1000, 1, 0, 0)
-	glRotatef(gyro_y*20/1000, 0, 1, 0)
-	glRotatef(gyro_z*20/1000, 0, 0, 1)
+	# Gyroscope Rotation
+	# glRotatef(gyro_x*20/1000, 1, 0, 0)
+	# glRotatef(gyro_y*20/1000, 0, 1, 0)
+	# glRotatef(gyro_z*20/1000, 0, 0, 1)
+	# Accelerometer Rotation
+	glRotatef(roll-prev_rot_x, 1, 0, 0)
+	glRotatef(pitch-prev_rot_y, 0, 1, 0)
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 	visualization.Cube()
 	pygame.display.flip()
