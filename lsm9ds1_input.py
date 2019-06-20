@@ -167,8 +167,6 @@ while True:
 
 	time.sleep(0.02)
 
-def kalman_update(x, P):
-
 
 # Realtime Sensor Data Plotting
 # fig = plt.figure()									# Define Plot (For Data Visualization)
