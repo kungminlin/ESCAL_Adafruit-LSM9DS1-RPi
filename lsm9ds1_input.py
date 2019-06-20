@@ -95,7 +95,7 @@ def kalman_update(new_state):
 	S = H.dot(P).dot(H.T) + R 							# Innovation Co-Variance
 	K = P.dot(H.T).dot(np.linalg.pinv(S))				# Kalman Gain
 	x = x + K.dot(y)
-	P = (np.identity(9) - (K.dot(H))).dot(H)
+	P = (np.identity(9) - (K.dot(H))).dot(P)
 
 while True:
 	# Get Sensor Input
