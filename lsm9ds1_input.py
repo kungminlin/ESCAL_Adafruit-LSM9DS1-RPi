@@ -20,6 +20,7 @@ from OpenGL.GLU import *
 i2c = busio.I2C(board.SCL, board.SDA)		# Connect sensors via I2C
 sensor = adafruit_lsm9ds1.LSM9DS1_I2C(i2c)	# Identify sensor as Adafruit LSM9DS1
 
+# Initialize State
 pos_x = 0.0
 pos_y = 0.0
 pos_z = 0.0
@@ -37,6 +38,8 @@ glTranslatef(0.0,0.0,-5)
         
 
 while True:
+
+	# Get Sensor Input
 	accel_x, accel_y, accel_z = sensor.acceleration
 	mag_x, mag_y, mag_z = sensor.magnetic
 	gyro_x, gyro_y, gyro_z = sensor.gyro
@@ -44,31 +47,31 @@ while True:
 
 	# Normalize Acceleration
 	accel_magnitude = math.sqrt(math.pow(accel_x, 2) + math.pow(accel_y, 2) + math.pow(accel_z, 2))
-	accel_x /= accel_magnitude
-	accel_y /= accel_magnitude
-	accel_z /= accel_magnitude
 
 	print("\033[2J")	
-	print('\033[H{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Acceleration:', accel_x, accel_y, accel_z+9.8)) # Accounting for Acceleration due to Gravity
-	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Magnetometer:', mag_x, mag_y, mag_z))
-	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Gyroscope:', gyro_x, gyro_y, gyro_z))
-	print('{0:15s} {1:8.3f}C'.format('Temperature:', temp))
-	print('{0:15s} {1:8.2f}s'.format('Time Elapsed:', time.time()-start_time))
+	print('\033[H{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Acceleration:', accel_x, accel_y, accel_z+9.8))	# Acceleration (Accounting for Acceleration due to Gravity)
+	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Magnetometer:', mag_x, mag_y, mag_z))					# Magnetometer
+	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Gyroscope:', gyro_x, gyro_y, gyro_z))					# Gyroscope
+	print('{0:15s} {1:8.3f}C'.format('Temperature:', temp))															# Temperature
+	print('{0:15s} {1:8.2f}s'.format('Time Elapsed:', time.time()-start_time))										# Elapsed Time
 	print('\n')
-	print('{0:15s}  {1:>8s}'.format('Motion:', 'Up' if accel_z+9.8 > 0 else 'Down'))
-	print('{0:15s}  {1:>8s}'.format('Turn:', 'Left' if gyro_z < 0 else 'Right'))
-	print('{0:15s} {1:8.3f}N'.format('Heading:', math.atan2(mag_y, mag_x) * 180 / math.pi))
+	print('{0:15s}  {1:>8s}'.format('Motion:', 'Up' if accel_z+9.8 > 0 else 'Down'))								# Acceleration Direction (Vertical)
+	print('{0:15s}  {1:>8s}'.format('Turn (Local):', 'Left' if gyro_z < 0 else 'Right'))							# Local Turn (Only under correct orientation)
+	# print('{0:15s}  {1:>8s}'.format('Turn (Global):', 'Left' if ))
+	print('{0:15s} {1:8.3f}N'.format('Heading:', math.atan2(mag_y, mag_x) * 180 / math.pi))							# Compass Heading (Not Accounting for Magnetic Declination)
 	print('\n')
 	
 	gyro_rotation['x'] += gyro_x*20/1000
 	gyro_rotation['y'] += gyro_y*20/1000
 	gyro_rotation['z'] += gyro_z*20/1000
 
+	# Rotations with Gyroscope
 	print('Rotations with Gyroscope')
 	print('{0:15s} {1:8.3f}'.format('X Rotation:', gyro_rotation['x']))
 	print('{0:15s} {1:8.3f}'.format('Y Rotation:', gyro_rotation['y']))
 	print('{0:15s} {1:8.3f}'.format('Z Rotation:', gyro_rotation['z']))
 
+	# Rotations with Accelerometer
 	print('\n')
 	print('Rotations with Accelerometer')
 	print('{0:15s} {1:8.3f}'.format('Roll:', math.atan2(accel_y, accel_z) * 180/math.pi))
