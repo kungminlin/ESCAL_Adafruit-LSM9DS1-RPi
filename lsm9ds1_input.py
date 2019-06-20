@@ -1,3 +1,5 @@
+import sys
+
 # Data Logging
 import time
 import board
@@ -7,18 +9,18 @@ import adafruit_lsm9ds1
 # Data Plotting
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-import dataplot
+import dataplot 							# Local Module
 import math
 
 # 3D Visualization
-import visualization
+import visualization 						# Local Module
 import pygame
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
 import numpy as np
-import kalman_filter
+import kalman_filter 						# Local Module
 
 i2c = busio.I2C(board.SCL, board.SDA)		# Connect sensors via I2C
 sensor = adafruit_lsm9ds1.LSM9DS1_I2C(i2c)	# Identify sensor as Adafruit LSM9DS1
@@ -38,7 +40,6 @@ gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
 glTranslatef(0.0,0.0,-5)
 prev_rot_x, prev_rot_y, prev_rot_z = 0.0, 0.0, 0.0
 
-
 while True:
 	# Get Sensor Input
 	accel_x, accel_y, accel_z = sensor.acceleration
@@ -46,11 +47,19 @@ while True:
 	gyro_x, gyro_y, gyro_z = sensor.gyro
 	temp = sensor.temperature
 
+	kalman_filter.update(np.array([accel_x, accel_y, accel_z]))
+	x = kalman_filter.get_state()
+	if (len(sys.argv) > 1 and sys.argv[1] == "kalman_filter"):
+		pos_x, pos_y, pos_z = x[0], x[1], x[2]
+		vel_x, vel_y, vel_z = x[3], x[4], x[5]
+		accel_x, accel_y, accel_z = x[6], x[7], x[8]
+
 	# Normalize Acceleration
 	accel_magnitude = math.sqrt(math.pow(accel_x, 2) + math.pow(accel_y, 2) + math.pow(accel_z, 2))
-	unit_accel_x = accel_x/accel_magnitude
-	unit_accel_y = accel_y/accel_magnitude
-	unit_accel_z = accel_z/accel_magnitude
+	if accel_magnitude is not 0:
+		unit_accel_x = accel_x/accel_magnitude
+		unit_accel_y = accel_y/accel_magnitude
+		unit_accel_z = accel_z/accel_magnitude
 
 	print("\033[2J")	
 	print('\033[H{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Acceleration:', accel_x, accel_y, accel_z))	# Acceleration (Accounting for Acceleration due to Gravity)
@@ -85,8 +94,6 @@ while True:
 	print('{0:15s} {1:8.3f}'.format('Pitch:', pitch))
 	print('\n')
 
-	kalman_filter.update(np.array([accel_x, accel_y, accel_z]))
-	x = kalman_filter.get_state()
 	pos_x, pos_y, pos_z = x[0], x[1], x[2]
 	vel_x, vel_y, vel_z = x[3], x[4], x[5]
 	accel_x, accel_y, accel_z = x[6], x[7], x[8]
@@ -125,7 +132,7 @@ while True:
 
 
 # Realtime Sensor Data Plotting
-# fig = plt.figure()									# Define Plot (For Data Visualization)
+# fig = plt.figure()
 # dataplot = dataplot.Dataplot(fig)
 # dataplot.add_subplot("accel_x", "Accelerometer X")
 # dataplot.add_subplot("accel_y", "Accelerometer Y")
