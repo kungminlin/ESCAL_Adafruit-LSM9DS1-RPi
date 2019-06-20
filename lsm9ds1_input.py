@@ -59,9 +59,9 @@ while True:
 	gyro_rotation['z'] += gyro_z*20/1000
 
 	print('Rotations with Gyroscope')
-	print('{0:15s} {1:8.3f}'.format('X Rotation:', rotation['x']))
-	print('{0:15s} {1:8.3f}'.format('Y Rotation:', rotation['y']))
-	print('{0:15s} {1:8.3f}'.format('Z Rotation:', rotation['z']))
+	print('{0:15s} {1:8.3f}'.format('X Rotation:', gyro_rotation['x']))
+	print('{0:15s} {1:8.3f}'.format('Y Rotation:', gyro_rotation['y']))
+	print('{0:15s} {1:8.3f}'.format('Z Rotation:', gyro_rotation['z']))
 
 	print('\n')
 	print('Rotations with Accelerometer')
