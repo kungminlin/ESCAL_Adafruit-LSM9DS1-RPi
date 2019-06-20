@@ -22,7 +22,7 @@ sensor = adafruit_lsm9ds1.LSM9DS1_I2C(i2c)	# Identify sensor as Adafruit LSM9DS1
 
 # Initialize State
 pos_x, pos_y, pos_z = 0.0, 0.0, 0.0
-roll, pitch = 0.0, 0.0
+roll, pitch = 0.0, 0.0						# Roll = Rotation about X-Axis, Pitch = Rotation about Y-Axis
 elapsed = 0.0
 
 start_time = time.time()
@@ -98,6 +98,8 @@ while True:
 	# Accelerometer Rotation
 	glRotatef(roll-prev_rot_x, 1, 0, 0)
 	glRotatef(pitch-prev_rot_y, 0, 1, 0)
+	prev_rot_x = roll
+	prev_rot_y = pitch
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 	visualization.Cube()
 	pygame.display.flip()
