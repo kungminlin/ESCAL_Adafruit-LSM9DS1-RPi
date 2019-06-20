@@ -68,7 +68,7 @@ x = np.array([pos_x, pos_y, pos_z, 						# State Model
 			  vel_x, vel_y, vel_z, 
 			  accel_x, accel_y, accel_z])
 
-P = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0],				# Co-Variance Matrix
+P = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0],				# Co-Variance Matrix
 			 [0, 0, 0, 0, 0, 0, 0, 0, 0],
 			 [0, 0, 0, 0, 0, 0, 0, 0, 0],
 			 [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -76,7 +76,7 @@ P = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0],				# Co-Variance Matrix
 			 [0, 0, 0, 0, 0, 0, 0, 0, 0],
 			 [0, 0, 0, 0, 0, 0, 0, 0, 0],
 			 [0, 0, 0, 0, 0, 0, 0, 0, 0],
-			 [0, 0, 0, 0, 0, 0, 0, 0, 0])
+			 [0, 0, 0, 0, 0, 0, 0, 0, 0]])
 
 H = np.array([[0, 0, 0, 0, 0, 0, 1, 0, 0],				# Observation Matrix
 			  [0, 0, 0, 0, 0, 0, 0, 1, 0],
