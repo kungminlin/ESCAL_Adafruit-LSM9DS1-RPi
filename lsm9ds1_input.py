@@ -68,7 +68,9 @@ while True:
 			pygame.quit()
 			quit()
 
-	glRotatef(-5, 0, 0, 1)
+	glRotatef(gyro_x*20/1000, 1, 0, 0)
+	glRotatef(gyro_y*20/1000, 0, 1, 0)
+	glRotatef(gyro_z*20/1000, 0, 0, 1)
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 	visualization.Cube()
 	pygame.display.flip()
