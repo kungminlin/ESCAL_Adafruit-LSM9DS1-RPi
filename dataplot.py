@@ -18,10 +18,6 @@ class Dataplot:
 		self.plots[name]['x'][-self.limit:]
 		self.plots[name]['y'].append(y)
 		self.plots[name]['y'][-self.limit:]
-		print(self.plots[name]['x'])
-		print(self.plots[name]['y'])
-		# self.plots[name]['plot'].set_ydata()
-		# plt.draw()
 		self.plots[name]['ax'].clear()
 		self.plots[name]['ax'].plot(self.plots[name]['x'], self.plots[name]['y'], '.')
 
