@@ -23,11 +23,6 @@ import kalman_filter
 i2c = busio.I2C(board.SCL, board.SDA)		# Connect sensors via I2C
 sensor = adafruit_lsm9ds1.LSM9DS1_I2C(i2c)	# Identify sensor as Adafruit LSM9DS1
 
-# Initial State
-pos_x, pos_y, pos_z = 0.0, 0.0, 0.0
-vel_x, vel_y, vel_z = 0.0, 0.0, 0.0
-accel_x, accel_y, accel_z = 0.0, 0.0, 0.0
-
 roll, pitch = 0.0, 0.0						# Roll = Rotation about X-Axis, Pitch = Rotation about Y-Axis
 elapsed = 0.0
 
