@@ -56,7 +56,7 @@ if len(sys.argv) > 1 and sys.argv[1] == "dataplot":
 	plot.add_subplot("mag_y")
 	plot.add_subplot("mag_z")
 
-	def realtime_dataplot():
+	def realtime_dataplot(i):
 		accel_x, accel_y, accel_z = sensor.acceleration
 		mag_x, mag_y, mag_z = sensor.magnetic
 		gyro_x, gyro_y, gyro_z = sensor.gyro
