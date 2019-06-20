@@ -47,6 +47,9 @@ while True:
 
 	# Normalize Acceleration
 	accel_magnitude = math.sqrt(math.pow(accel_x, 2) + math.pow(accel_y, 2) + math.pow(accel_z, 2))
+	unit_accel_x = accel_x/accel_magnitude
+	unit_accel_y = accel_y/accel_magnitude
+	unit_accel_z = accel_z/accel_magnitude
 
 	print("\033[2J")	
 	print('\033[H{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Acceleration:', accel_x, accel_y, accel_z+9.8))	# Acceleration (Accounting for Acceleration due to Gravity)
@@ -74,8 +77,8 @@ while True:
 	# Rotations with Accelerometer
 	print('\n')
 	print('Rotations with Accelerometer')
-	print('{0:15s} {1:8.3f}'.format('Roll:', math.atan2(accel_y, accel_z) * 180/math.pi))
-	print('{0:15s} {1:8.3f}'.format('Pitch:', math.atan2((-accel_x), math.sqrt(accel_y*accel_y+accel_z*accel_z)) * 180/math.pi))
+	print('{0:15s} {1:8.3f}'.format('Roll:', math.atan2(unit_accel_y, unit_accel_z) * 180/math.pi))
+	print('{0:15s} {1:8.3f}'.format('Pitch:', math.atan2((-unit_accel_x), math.sqrt(unit_accel_y*unit_accel_y+unit_accel_z*unit_accel_z)) * 180/math.pi))
 
 
 	# Quit Window Event
