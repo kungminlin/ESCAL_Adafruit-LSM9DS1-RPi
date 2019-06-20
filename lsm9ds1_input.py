@@ -1,4 +1,5 @@
 import sys
+import math
 
 # Data Logging
 import time
@@ -9,8 +10,9 @@ import adafruit_lsm9ds1
 # Data Plotting
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import datetime
 import dataplot 							# Local Module
-import math
+
 
 # 3D Visualization
 import visualization 						# Local Module
@@ -40,6 +42,39 @@ gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
 glTranslatef(0.0,0.0,-5)
 prev_rot_x, prev_rot_y, prev_rot_z = 0.0, 0.0, 0.0
 
+fig = plt.figure()
+
+def realtime_dataplot():
+	accel_x, accel_y, accel_z = sensor.acceleration
+	mag_x, mag_y, mag_z = sensor.magnetic
+	gyro_x, gyro_y, gyro_z = sensor.gyro
+	temp = sensor.temperature
+	dataplot.update_data("accel_x", str(datetime.datetime.now()), accel_x)
+	dataplot.update_data("accel_y", str(datetime.datetime.now()), accel_y)
+	dataplot.update_data("accel_z", str(datetime.datetime.now()), accel_z)
+	dataplot.update_data("gyro_x", str(datetime.datetime.now()), gyro_x)
+	dataplot.update_data("gyro_y", str(datetime.datetime.now()), gyro_y)
+	dataplot.update_data("gyro_z", str(datetime.datetime.now()), gyro_z)
+	dataplot.update_data("mag_x", str(datetime.datetime.now()), mag_x)
+	dataplot.update_data("mag_y", str(datetime.datetime.now()), mag_y)
+	dataplot.update_data("mag_z", str(datetime.datetime.now()), mag_z)
+
+if len(sys.argv) > 1 and sys.argv[1] == "dataplot":
+	plot = dataplot.Dataplot()
+	dataplot.add_subplot("accel_x")
+	dataplot.add_subplot("accel_y")
+	dataplot.add_subplot("accel_z")
+	dataplot.add_subplot("gyro_x")
+	dataplot.add_subplot("gyro_y")
+	dataplot.add_subplot("gyro_z")
+	dataplot.add_subplot("mag_x")
+	dataplot.add_subplot("mag_y")
+	dataplot.add_subplot("mag_z")
+
+	anim = matplotlib.animation.FuncAnimation(fig, realtime_dataplot, interval=20)
+	plt.show()
+
+
 while True:
 	# Get Sensor Input
 	accel_x, accel_y, accel_z = sensor.acceleration
@@ -49,7 +84,7 @@ while True:
 
 	kalman_filter.update(np.array([accel_x, accel_y, accel_z]))
 	x = kalman_filter.get_state()
-	if (len(sys.argv) > 1 and sys.argv[1] == "kalman_filter"):
+	if len(sys.argv) > 1 and sys.argv[1] == "kalman_filter":
 		pos_x, pos_y, pos_z = x[0], x[1], x[2]
 		vel_x, vel_y, vel_z = x[3], x[4], x[5]
 		accel_x, accel_y, accel_z = x[6], x[7], x[8]
