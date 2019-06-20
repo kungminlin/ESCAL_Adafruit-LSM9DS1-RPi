@@ -89,7 +89,7 @@ while True:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			pygame.quit()
-	# 		quit()
+			quit()
 
 	# 3D Simulation
 	# Gyroscope Rotation
@@ -98,6 +98,7 @@ while True:
 	# glRotatef(gyro_z*20/1000, 0, 0, 1)
 	# Accelerometer Rotation
 	glLoadIdentity()
+	glTranslatef(0.0,0.0,-5)
 	glRotatef(roll, 1, 0, 0)
 	glRotatef(pitch, 0, 1, 0)
 	prev_rot_x = roll
