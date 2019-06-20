@@ -1,3 +1,4 @@
+# Data Logging
 import time
 import board
 import busio
@@ -77,7 +78,7 @@ while True:
 	print('\n')
 
 	# Rotations with Accelerometer
-	roll = math.atan2(unit_accel_y, unit_accel_z) * 180/math.pi + 180
+	roll = math.atan2(unit_accel_y, unit_accel_z) * 180/math.pi
 	pitch = math.atan2((-unit_accel_x), math.sqrt(unit_accel_y*unit_accel_y+unit_accel_z*unit_accel_z)) * 180/math.pi
 	
 	print('Rotations with Accelerometer')
