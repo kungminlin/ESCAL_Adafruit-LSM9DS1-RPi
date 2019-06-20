@@ -16,7 +16,7 @@ pos_z = 0.0
 elapsed = 0.0
 
 start_time = time.time()
-rotation = {x: 0, y: 0, z: 0}
+rotation = {'x': 0, 'y': 0, 'z': 0}
 
 while True:
 	accel_x, accel_y, accel_z = sensor.acceleration
