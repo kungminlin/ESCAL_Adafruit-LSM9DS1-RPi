@@ -2,11 +2,20 @@ import time
 import board
 import busio
 import adafruit_lsm9ds1
+
+# Data Plotting
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import dataplot
-import visualization
 import math
+
+# 3D Visualization
+import visualization
+import pygame
+from pygame.locals import *
+from OpenGL.GL import *
+from OpenGL.GLU import *
+
 
 i2c = busio.I2C(board.SCL, board.SDA)		# Connect sensors via I2C
 sensor = adafruit_lsm9ds1.LSM9DS1_I2C(i2c)	# Identify sensor as Adafruit LSM9DS1
@@ -18,6 +27,15 @@ elapsed = 0.0
 
 start_time = time.time()
 rotation = {'x': 0, 'y': 0, 'z': 0}
+
+pygame.init()
+display = (800,600)
+pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
+
+gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
+
+glTranslatef(0.0,0.0, -5)
+        
 
 while True:
 	accel_x, accel_y, accel_z = sensor.acceleration
@@ -44,6 +62,17 @@ while True:
 	print('{0:15s} {1:8.3f}'.format('X Rotation:', rotation['x']))
 	print('{0:15s} {1:8.3f}'.format('Y Rotation:', rotation['y']))
 	print('{0:15s} {1:8.3f}'.format('Z Rotation:', rotation['z']))
+
+	for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            quit()
+
+    glRotatef(-5, 0, 0, 1)
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+    visualization.Cube()
+    pygame.display.flip()
+    pygame.time.wait(10)
 
 	time.sleep(0.02)
 
