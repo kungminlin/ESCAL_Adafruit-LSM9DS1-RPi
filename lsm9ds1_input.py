@@ -16,9 +16,7 @@ pos_z = 0.0
 elapsed = 0.0
 
 start_time = time.time()
-prev_gyro_x = 0
-sum_gyro_x = 0
-partial_sum_gyro_x = 0
+rotation = {x: 0, y: 0, z: 0}
 
 while True:
 	accel_x, accel_y, accel_z = sensor.acceleration
@@ -32,13 +30,19 @@ while True:
 	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Gyroscope:', gyro_x, gyro_y, gyro_z))
 	print('{0:15s} {1:8.3f}C'.format('Temperature:', temp))
 	print('{0:15s} {1:8.2f}s'.format('Time Elapsed:', time.time()-start_time))
-	print('\n\n')
+	print('\n')
 	print('{0:15s}  {1:>8s}'.format('Motion:', 'Up' if accel_z+9.8 > 0 else 'Down'))
-	print('{0:15s} {1:>8s}'.format('Turn:', 'Left' if gyro_z < 0 else 'Right'))
+	print('{0:15s}  {1:>8s}'.format('Turn:', 'Left' if gyro_z < 0 else 'Right'))
 	print('{0:15s} {1:8.3f}N'.format('Heading:', math.atan2(mag_y, mag_x) * 180 / math.pi))
-	print('\n\n')
-	sum_gyro_x += gyro_x*20/1000
-	print(sum_gyro_x)
+	print('\n')
+	
+	rotation['x'] += gyro_x*20/1000
+	rotation['y'] += gyro_y*20/1000
+	rotation['z'] += gyro_z*20/1000
+
+	print('{0:15s} {1:8.3f}'.format('X Rotation:', rotation['x']))
+	print('{0:15s} {1:8.3f}'.format('Y Rotation:', rotation['y']))
+	print('{0:15s} {1:8.3f}'.format('Z Rotation:', rotation['z']))
 
 	time.sleep(0.02)
 
