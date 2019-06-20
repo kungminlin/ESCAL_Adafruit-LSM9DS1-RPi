@@ -76,7 +76,7 @@ while True:
 	print('\n')
 
 	# Rotations with Accelerometer
-	roll = math.atan2(unit_accel_y, unit_accel_z) * 180/math.pi
+	roll = math.atan2(unit_accel_y, unit_accel_z) * 180/math.pi + 180
 	pitch = math.atan2((-unit_accel_x), math.sqrt(unit_accel_y*unit_accel_y+unit_accel_z*unit_accel_z)) * 180/math.pi
 	
 	print('Rotations with Accelerometer')
