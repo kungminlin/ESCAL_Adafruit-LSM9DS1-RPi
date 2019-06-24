@@ -182,12 +182,16 @@ while True:
 	# glRotatef(gyro_z*20/1000, 0, 0, 1)
 
 	# Accelerometer Rotation
-	glRotatef(roll_accel-prev_rot_x, 1, 0, 0)
-	glRotatef(pitch_accel-prev_rot_y, 0, 1, 0)
-	glRotatef(math.atan2(mag_y, mag_x) * 180 / math.pi - prev_rot_z, 0, 0, 1)
-	prev_rot_x = roll_accel
-	prev_rot_y = pitch_accel
-	prev_rot_z = math.atan2(mag_y, mag_x) * 180 / math.pi
+	glRotatef(roll-prev_rot_x, 1, 0, 0)
+	glRotatef(pitch-prev_rot_y, 0, 1, 0)
+	glRotatef(yaw-prev_rot_z, 0, 0, 1)
+
+
+
+	prev_rot_x = roll
+	prev_rot_y = pitch
+	prev_rot_z = yaw
+	
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 	visualization.Cube()
 	pygame.display.flip()

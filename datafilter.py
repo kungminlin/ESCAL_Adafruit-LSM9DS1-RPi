@@ -86,7 +86,7 @@ class ComplFilter(Filter):
 		accel_x, accel_y, accel_z = self.sensor.acceleration
 		gyro_x, gyro_y, gyro_z = self.sensor.acceleration
 		unit_accel_x, unit_accel_y, unit_accel_z = self.sensor.acceleration
-		accel_magnitude = math.sqrt(math.pow(accel_x, 2) + math.pow(accel_y, 2) + math.pow(accel_z, 2))
+		accel_magnitude = math.sqrt(accel_x**2 + accel_y**2 + accel_z**2)
 		if accel_magnitude is not 0:
 			unit_accel_x = accel_x/accel_magnitude
 			unit_accel_y = accel_y/accel_magnitude
