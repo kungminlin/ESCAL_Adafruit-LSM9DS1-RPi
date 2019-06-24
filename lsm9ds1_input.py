@@ -176,9 +176,12 @@ while True:
 	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Velocity:', vel_x, vel_y, vel_z))
 	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Acceleration:', accel_x, accel_y, accel_z))
 	print('\n')
-	print(kalman_filter.P)
 
 	print('Quaternion: ' + str(euler_to_quaternion(math.atan2(mag_y, mag_x) * 180 / math.pi, pitch_accel, roll_accel)))
+	print('\n')
+
+	print('Co-Variance Matrix')
+	print(kalman_filter.P)
 
 	# Quit Window Event
 	for event in pygame.event.get():
@@ -192,10 +195,12 @@ while True:
 	# glRotatef(gyro_y*20/1000, 0, 1, 0)
 	# glRotatef(gyro_z*20/1000, 0, 0, 1)
 	# Accelerometer Rotation
-	glRotatef(roll-prev_rot_x, 1, 0, 0)
-	glRotatef(pitch-prev_rot_y, 0, 1, 0)
-	prev_rot_x = roll
-	prev_rot_y = pitch
+	glRotatef(roll_accel-prev_rot_x, 1, 0, 0)
+	glRotatef(pitch_accel-prev_rot_y, 0, 1, 0)
+	glRotatef(math.atan2(mag_y, mag_x) * 180 / math.pi - prev_rot_z, 0, 0, 1)
+	prev_rot_x = roll_accel
+	prev_rot_y = pitch_accel
+	prev_rot_z = math.atan2(mag_y, mag_x) * 180 / math.pi
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 	visualization.Cube()
 	pygame.display.flip()
