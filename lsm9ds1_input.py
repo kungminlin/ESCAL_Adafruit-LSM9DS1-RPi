@@ -129,8 +129,11 @@ while True:
 	roll -= gyro_y * dt
 
 	# Rotations with Accelerometer
-	roll_accel = math.atan2(unit_accel_y, unit_accel_z) * 180/math.pi
-	pitch_accel = math.atan2((-unit_accel_x), math.sqrt(unit_accel_y*unit_accel_y+unit_accel_z*unit_accel_z)) * 180/math.pi
+	pitch_accel = math.atan2(unit_accel_y, unit_accel_z) * 180/math.pi
+	roll_accel = math.atan2(unit_accel_x, unit_accel_z) * 180/math.pi
+
+	# roll_accel = math.atan2(unit_accel_y, unit_accel_z) * 180/math.pi
+	# pitch_accel = math.atan2((-unit_accel_x), math.sqrt(unit_accel_y*unit_accel_y+unit_accel_z*unit_accel_z)) * 180/math.pi
 	
 	print('Rotations with Accelerometer')
 	print('{0:15s} {1:8.3f}'.format('Roll:', roll_accel))
@@ -139,6 +142,7 @@ while True:
 
 	# force_magnitude_approx = abs(accel_x) + abs(accel_y) + abs(accel_z)
 	# if (force_magnitude_approx > 8192 && force_magnitude)
+
 	pitch = pitch * 0.98 + pitch_accel * 0.02
 	roll = roll * 0.98 + roll_accel * 0.02
 
