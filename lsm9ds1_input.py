@@ -139,9 +139,10 @@ while True:
 	print('\n')
 	
 	# Rotations with Gyroscope
-	gyro_rotation['x'] += gyro_x*dt
-	gyro_rotation['y'] += gyro_y*dt
-	gyro_rotation['z'] += gyro_z*dt
+	g_gain = 6
+	gyro_rotation['x'] += gyro_x*6*dt
+	gyro_rotation['y'] += gyro_y*6*dt
+	gyro_rotation['z'] += gyro_z*6*dt
 	
 	print('Rotations with Gyroscope')
 	print('{0:15s} {1:8.3f}'.format('X Rotation:', gyro_rotation['x']))
@@ -191,7 +192,7 @@ while True:
 	prev_rot_x = roll
 	prev_rot_y = pitch
 	prev_rot_z = yaw
-	
+
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 	visualization.Cube()
 	pygame.display.flip()
