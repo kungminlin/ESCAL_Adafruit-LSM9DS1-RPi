@@ -85,6 +85,7 @@ class ComplFilter(Filter):
 	def update(self):
 		accel_x, accel_y, accel_z = self.sensor.acceleration
 		gyro_x, gyro_y, gyro_z = self.sensor.acceleration
+		mag_x, mag_y, mag_z = self.sensor.acceleration
 		unit_accel_x, unit_accel_y, unit_accel_z = self.sensor.acceleration
 		accel_magnitude = math.sqrt(accel_x**2 + accel_y**2 + accel_z**2)
 		if accel_magnitude is not 0:
@@ -94,12 +95,15 @@ class ComplFilter(Filter):
 
 		pitch_accel = math.atan2(unit_accel_y, unit_accel_z) * 180/math.pi
 		roll_accel = math.atan2(unit_accel_x, unit_accel_z) * 180/math.pi
+		yaw_mag = math.atan2(mag_y, mag_x) * 180/math.pi
 
 		self.pitch += gyro_x * self.dt
 		self.roll -= gyro_y * self.dt
+		self.yaw += gyro_z * self.dt
 
 		self.pitch = self.pitch * (1-self.alpha) + pitch_accel * self.alpha
 		self.roll = self.roll * (1-self.alpha) + roll_accel * self.alpha
+		self.yaw = self.yaw * (1-self.alpha) + yaw_mag * self.alpha
 
 	def get_state(self):
 		return self.pitch, self.roll
