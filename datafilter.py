@@ -17,7 +17,7 @@ class KalmanFilter(Filter):
 		self.dt = dt
 		self.pos_x, self.pos_y, self.pos_z = 0.0, 0.0, 0.0
 		self.vel_x, self.vel_y, self.vel_z = 0.0, 0.0, 0.0
-		self.accel_x, self.accel_y, self.accel_z = 0.0, 0.0, 0.0
+		self.accel_x, self.accel_y, self.accel_z = sensor.acceleration
 
 		self.A = np.array([[1, 0, 0, 0, 0, 0, 0, 0, 0],				# State Transition Matrix
 						   [0, 1, 0, 0, 0, 0, 0, 0, 0],
@@ -39,9 +39,9 @@ class KalmanFilter(Filter):
 						  [0, 0, 0, 0, 0, 0, 0, 0.01, 0],
 						  [0, 0, 0, 0, 0, 0, 0, 0, 0.01]])
 
-		self.x = np.array([pos_x, pos_y, pos_z, 					# State Model
-					  	   vel_x, vel_y, vel_z, 
-					  	   accel_x, accel_y, accel_z])
+		self.x = np.array([self.pos_x, self.pos_y, self.pos_z, 		# State Model
+					  	   self.vel_x, self.vel_y, self.vel_z, 
+					  	   self.accel_x, self.accel_y, self.accel_z])
 
 		self.P = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0],				# Co-Variance Matrix
 						   [0, 0, 0, 0, 0, 0, 0, 0, 0],
