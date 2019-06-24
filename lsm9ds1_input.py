@@ -77,6 +77,21 @@ if len(sys.argv) > 1 and sys.argv[1] == "dataplot":
 	anim = animation.FuncAnimation(fig, realtime_dataplot, interval=20)
 	plt.show()
 
+def euler_to_quaternion(yaw, pitch, roll):
+	cy = math.cos(yaw * 0.5)
+	sy = math.sin(yaw * 0.5)
+	cp = math.cos(pitch * 0.5)
+	sp = math.sin(pitch * 0.5)
+	cr = math.cos(roll * 0.5)
+	sr = math.sin(roll * 0.5)
+
+	q = {'w': 0.0, 'x': 0.0, 'y': 0.0, 'z': 0.0}
+	q['w'] = cy * cp * cr + sy * sp * sr
+	q['x'] = cy * cp * sr - sy * sp * cr
+	q['y'] = sy * cp * sr + cy * sp * cr
+	q['z'] = sy * cp * cr - cy * sp * sr
+
+	return q
 
 while True:
 	dt = 0.01
@@ -189,23 +204,6 @@ while True:
 	
 
 	time.sleep(0.01)
-
-
-def euler_to_quaternion(yaw, pitch, roll):
-	cy = math.cos(yaw * 0.5)
-	sy = math.sin(yaw * 0.5)
-	cp = math.cos(pitch * 0.5)
-	sp = math.sin(pitch * 0.5)
-	cr = math.cos(roll * 0.5)
-	sr = math.sin(roll * 0.5)
-
-	q = {'w': 0.0, 'x': 0.0, 'y': 0.0, 'z': 0.0}
-	q['w'] = cy * cp * cr + sy * sp * sr
-	q['x'] = cy * cp * sr - sy * sp * cr
-	q['y'] = sy * cp * sr + cy * sp * cr
-	q['z'] = sy * cp * cr - cy * sp * sr
-
-	return q
 
 # Realtime Sensor Data Plotting
 # fig = plt.figure()
