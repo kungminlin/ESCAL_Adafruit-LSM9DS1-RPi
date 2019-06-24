@@ -117,13 +117,13 @@ while True:
 
 	# Complementary Filter
 	cf.update()
-	cf_pitch, cf_roll = cf.get_state()
+	cf_pitch, cf_roll, cf_yaw = cf.get_state()
 
 	if len(sys.argv) > 1 and sys.argv[1] == "kalman_filter":
 		accel_x, accel_y, accel_z = kf_accel_x, kf_accel_y, kf_accel_z
 
 	if len(sys.argv) > 1 and sys.argv[1] == "compl_filter":
-		pitch, roll = cf_pitch, cf_roll
+		pitch, roll, yaw = cf_pitch, cf_roll, cf_yaw
 
 	print("\033[2J")	
 	print('\033[H{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Acceleration:', accel_x, accel_y, accel_z))	# Acceleration (Accounting for Acceleration due to Gravity)

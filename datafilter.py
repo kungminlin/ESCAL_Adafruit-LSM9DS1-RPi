@@ -80,7 +80,7 @@ class ComplFilter(Filter):
 		self.sensor = sensor
 		self.dt = dt
 		self.alpha = alpha
-		self.pitch, self.roll, self.yaw = 0.0, 0.0
+		self.pitch, self.roll, self.yaw = 0.0, 0.0, 0.0
 
 	def update(self):
 		accel_x, accel_y, accel_z = self.sensor.acceleration
@@ -106,4 +106,4 @@ class ComplFilter(Filter):
 		self.yaw = self.yaw * (1-self.alpha) + yaw_mag * self.alpha
 
 	def get_state(self):
-		return self.pitch, self.roll
+		return self.pitch, self.roll, self.yaw
