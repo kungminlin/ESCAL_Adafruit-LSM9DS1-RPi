@@ -36,6 +36,7 @@ start_time = time.time()
 gyro_rotation = {'x': 0, 'y': 0, 'z': 0}
 prev_rot_x, prev_rot_y, prev_rot_z = 0.0, 0.0, 0.0
 
+dt = 0.01
 kf = datafilter.KalmanFilter(sensor, dt)
 cf = datafilter.ComplFilter(sensor, dt)
 
@@ -98,8 +99,6 @@ def euler_to_quaternion(yaw, pitch, roll):
 
 # Main Loop
 while True:
-	dt = 0.01
-
 	# Get Sensor Input
 	accel_x, accel_y, accel_z = sensor.acceleration
 	mag_x, mag_y, mag_z = sensor.magnetic
