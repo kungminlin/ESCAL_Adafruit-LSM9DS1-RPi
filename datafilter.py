@@ -12,7 +12,7 @@ class Filter(abc.ABC):
 		pass
 
 class KalmanFilter(Filter):
-	def __init__(self, sensor, dt=0.01):
+	def __init__(self, sensor, dt=0.15):
 		self.sensor = sensor
 		self.dt = dt
 		self.pos_x, self.pos_y, self.pos_z = 0.0, 0.0, 0.0
