@@ -106,8 +106,8 @@ while True:
 	temp = sensor.temperature
 
 	# Rotations with Accelerometer and Magnetometer (Default)
-	pitch = math.atan2(unit_accel_y, unit_accel_z) * 180/math.pi
-	roll = math.atan2(unit_accel_x, unit_accel_z) * 180/math.pi
+	pitch = math.atan2(accel_y, accel_z) * 180/math.pi
+	roll = math.atan2(accel_x, accel_z) * 180/math.pi
 	yaw = math.atan2(mag_y, mag_x) * 180/math.pi
 
 
