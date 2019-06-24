@@ -76,10 +76,11 @@ class KalmanFilter(Filter):
 		return self.x[0], self.x[1], self.x[2], self.x[3], self.x[4], self.x[5], self.x[6], self.x[7], self.x[8]
 
 class ComplFilter(Filter):
-	def __init__(self, sensor, dt=0.01, alpha=0.02):
+	def __init__(self, sensor, dt=0.01, alpha=0.02, g_gain=0.6):
 		self.sensor = sensor
 		self.dt = dt
 		self.alpha = alpha
+		self.g_gain = g_gain
 		self.pitch, self.roll, self.yaw = 0.0, 0.0, 0.0
 
 	def update(self):
@@ -97,9 +98,9 @@ class ComplFilter(Filter):
 		roll_accel = math.atan2(unit_accel_x, unit_accel_z) * 180/math.pi
 		yaw_mag = math.atan2(mag_y, mag_x) * 180/math.pi
 
-		self.pitch += gyro_x * self.dt
-		self.roll -= gyro_y * self.dt
-		self.yaw += gyro_z * self.dt
+		self.pitch += gyro_x * self.g_gain * self.dt
+		self.roll += gyro_y * self.g_gain * self.dt
+		self.yaw += gyro_z * self.g_gain * self.dt
 
 		self.pitch = self.pitch * (1-self.alpha) + pitch_accel * self.alpha
 		self.roll = self.roll * (1-self.alpha) + roll_accel * self.alpha

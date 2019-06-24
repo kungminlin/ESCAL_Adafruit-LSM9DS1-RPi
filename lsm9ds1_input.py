@@ -140,9 +140,9 @@ while True:
 	
 	# Rotations with Gyroscope
 	g_gain = 6
-	gyro_rotation['x'] += gyro_x*0.1*180/math.pi*dt
-	gyro_rotation['y'] += gyro_y*0.1*180/math.pi*dt
-	gyro_rotation['z'] += gyro_z*0.1*180/math.pi*dt
+	gyro_rotation['x'] += gyro_x*0.6*dt
+	gyro_rotation['y'] += gyro_y*0.6*dt
+	gyro_rotation['z'] += gyro_z*0.6*dt
 	
 	print('Rotations with Gyroscope')
 	print('{0:15s} {1:8.3f}'.format('X Rotation:', gyro_rotation['x']))
