@@ -27,8 +27,11 @@ import kalman_filter 						# Local Module
 i2c = busio.I2C(board.SCL, board.SDA)		# Connect sensors via I2C
 sensor = adafruit_lsm9ds1.LSM9DS1_I2C(i2c)	# Identify sensor as Adafruit LSM9DS1
 
-roll, pitch = 0.0, 0.0						# Roll = Rotation about X-Axis, Pitch = Rotation about Y-Axis
+roll_accel, pitch_accel = 0.0, 0.0						# Roll = Rotation about X-Axis, Pitch = Rotation about Y-Axis
+roll, pitch = 0.0, 0.0
 elapsed = 0.0
+
+# gyro_sensitivity = 65.536
 
 start_time = time.time()
 gyro_rotation = {'x': 0, 'y': 0, 'z': 0}
@@ -76,6 +79,8 @@ if len(sys.argv) > 1 and sys.argv[1] == "dataplot":
 
 
 while True:
+	dt = 0.01
+
 	# Get Sensor Input
 	accel_x, accel_y, accel_z = sensor.acceleration
 	mag_x, mag_y, mag_z = sensor.magnetic
@@ -110,9 +115,9 @@ while True:
 	print('\n')
 	
 	# Rotations with Gyroscope
-	gyro_rotation['x'] += gyro_x*20/1000
-	gyro_rotation['y'] += gyro_y*20/1000
-	gyro_rotation['z'] += gyro_z*20/1000
+	gyro_rotation['x'] += gyro_x*dt
+	gyro_rotation['y'] += gyro_y*dt
+	gyro_rotation['z'] += gyro_z*dt
 	
 	print('Rotations with Gyroscope')
 	print('{0:15s} {1:8.3f}'.format('X Rotation:', gyro_rotation['x']))
@@ -120,14 +125,28 @@ while True:
 	print('{0:15s} {1:8.3f}'.format('Z Rotation:', gyro_rotation['z']))
 	print('\n')
 
+	pitch += gyro_x * dt
+	roll -= gyro_y * dt
+
 	# Rotations with Accelerometer
-	roll = math.atan2(unit_accel_y, unit_accel_z) * 180/math.pi
-	pitch = math.atan2((-unit_accel_x), math.sqrt(unit_accel_y*unit_accel_y+unit_accel_z*unit_accel_z)) * 180/math.pi
+	roll_accel = math.atan2(unit_accel_y, unit_accel_z) * 180/math.pi
+	pitch_accel = math.atan2((-unit_accel_x), math.sqrt(unit_accel_y*unit_accel_y+unit_accel_z*unit_accel_z)) * 180/math.pi
 	
 	print('Rotations with Accelerometer')
+	print('{0:15s} {1:8.3f}'.format('Roll:', roll_accel))
+	print('{0:15s} {1:8.3f}'.format('Pitch:', pitch_accel))
+	print('\n')
+
+	# force_magnitude_approx = abs(accel_x) + abs(accel_y) + abs(accel_z)
+	# if (force_magnitude_approx > 8192 && force_magnitude)
+	pitch = pitch * 0.98 + pitch_accel * 0.02
+	roll = roll * 0.98 + roll_accel * 0.02
+
+	print('Complementary Filter Predictions')
 	print('{0:15s} {1:8.3f}'.format('Roll:', roll))
 	print('{0:15s} {1:8.3f}'.format('Pitch:', pitch))
 	print('\n')
+
 
 	pos_x, pos_y, pos_z = x[0], x[1], x[2]
 	vel_x, vel_y, vel_z = x[3], x[4], x[5]
@@ -136,7 +155,7 @@ while True:
 	print('Kalman Filter Predictions')
 	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Position:', pos_x, pos_y, pos_z))
 	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Velocity:', vel_x, vel_y, vel_z))
-	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Velocity:', accel_x, accel_y, accel_z))
+	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Acceleration:', accel_x, accel_y, accel_z))
 	print('\n')
 	print(kalman_filter.P)
 
@@ -163,7 +182,7 @@ while True:
 
 	
 
-	time.sleep(0.02)
+	time.sleep(0.01)
 
 
 # Realtime Sensor Data Plotting

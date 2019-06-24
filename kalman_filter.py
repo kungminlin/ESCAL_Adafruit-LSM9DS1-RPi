@@ -5,7 +5,7 @@ pos_x, pos_y, pos_z = 0.0, 0.0, 0.0
 vel_x, vel_y, vel_z = 0.0, 0.0, 0.0
 accel_x, accel_y, accel_z = 0.0, 0.0, 0.0
 
-dt = 0.02												# Change in Time (sec)
+dt = 0.01												# Change in Time (sec)
 A = np.array([[1, 0, 0, 0, 0, 0, 0, 0, 0],				# State Transition Matrix
 			  [0, 1, 0, 0, 0, 0, 0, 0, 0],
 			  [0, 0, 1, 0, 0, 0, 0, 0, 0],
