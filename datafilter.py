@@ -11,8 +11,53 @@ class Filter(abc.ABC):
 	def get_state(self):
 		pass
 
+class SensorFusion(Filter):
+	def __init__(self, sensor, dt=0.01):
+		self.sensor = sensor
+		self.dt = dt
+		self.ang_vel_x, self.roll = 0.0, 0.0
+		self.ang_vel_y, self.pitch = 0.0, 0.0
+
+		self.A = np.array([[1, -dt],
+							 [0, 1]])
+
+		self.Q = np.identity(2)*0.01
+
+		self.x_roll = np.array([self.ang_vel_x, self.roll])
+		self.x_pitch = np.array([self.ang_vel_y, self.pitch])
+
+		self.P_roll = np.zeros((2, 2))
+		self.P_pitch = np.zeros((2, 2))
+
+		self.H = np.array([[1], [0]])
+
+		self.R = np.array([5])
+
+	def update(self):
+		accel_x, accel_y, accel_z = self.sensor.acceleration
+		gyro_x, gyro_y, gyro_z = self.sensor.gyro
+		new_state_roll = np.array([gyro_x, math.atan2(acceL_y/(accel_y**2 + accel_z**2))])
+		new_state_pitch = np.array([gyro_y, math.atan2(accel_x/(accel_x**2 + accel_z**2))])
+		self.x_roll = self.A.dot(self.x_roll)
+		self.x_pitch = self.A.dot(self.x_pitch)
+		self.P_roll = self.A.dot(self.P_roll).dot(self.A.T) + self.Q
+		self.P_pitch = self.A.dot(self.P_pitch).dot(self.A.T) + self.Q
+		y_roll = new_state_roll - self.H.dot(self.x_roll)
+		y_pitch = new_state_pitch - self.H.dot(self.x_pitch)
+		S_roll = self.H.dot(self.P_roll).dot(self.H.T) + self.R
+		S_pitch = self.H.dot(self.P_pitch).dot(self.H.T) + self.R
+		K_roll = self.P_roll.dot(self.H.T).dot(np.linalg.pinv(S_roll))
+		K_pitch = self.P_pitch.dot(self.H.T).dot(np.linalg.pinv(S_pitch))
+		self.x_roll = self.x_roll + K_roll.dot(y_roll)
+		self.x_pitch = self.x_pitch + K_pitch.dot(y_pitch)
+		self.P_roll = (np.identity(2) - (K_roll.dot(self.H))).dot(self.P_roll)
+		self.P_pitch = (np.identity(2) - (K_pitch.dot(self.H))).dot(self.P_pitch)
+
+	def get_state(self):
+		return self.x_roll[1], self.x_pitch[1]
+
 class KalmanFilter(Filter):
-	def __init__(self, sensor, dt=0.15):
+	def __init__(self, sensor, dt=0.01):
 		self.sensor = sensor
 		self.dt = dt
 		self.pos_x, self.pos_y, self.pos_z = 0.0, 0.0, 0.0

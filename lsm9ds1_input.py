@@ -39,6 +39,7 @@ prev_rot_x, prev_rot_y, prev_rot_z = 0.0, 0.0, 0.0
 dt = 0.01
 kf = datafilter.KalmanFilter(sensor, dt)
 cf = datafilter.ComplFilter(sensor, dt)
+sf = datafilter.SensorFusion(sensor, dt)
 
 # Initialize 3D Animation
 pygame.init()
@@ -108,7 +109,11 @@ while True:
 	# Rotations with Accelerometer and Magnetometer (Default)
 	pitch = math.atan2(accel_y, accel_z) * 180/math.pi
 	roll = math.atan2(accel_x, accel_z) * 180/math.pi
-	yaw = math.atan2(mag_y, mag_x) * 180/math.pi
+
+	# Tilt Compensation for Yaw
+	x_flat = mag_x*math.cos(pitch) + mag_y*math.sin(pitch)*math.sin(roll) + mag_z*math.sin(pitch)*math.cos(roll)
+	y_flat = mag_y*math.cos(roll) + mag_z*math.sin(roll)
+	yaw = math.atan2(-y_flat/x_flat) * 180/math.pi
 
 
 	# Kalman Filter
@@ -119,11 +124,21 @@ while True:
 	cf.update()
 	cf_pitch, cf_roll, cf_yaw = cf.get_state()
 
+	# Sensor Fusion
+	sf.update()
+	sf_pitch, sf_roll = sf.get_state()
+	x_flat = mag_x*math.cos(sf_pitch) + mag_y*math.sin(sf_pitch)*math.sin(sf_roll) + mag_z*math.sin(sf_pitch)*math.cos(sf_roll)
+	y_flat = mag_y*math.cos(sf_roll) + mag_z*math.sin(sf_roll)
+	sf_yaw = math.atan2(-y_flat/x_flat) * 180/math.pi
+
 	if len(sys.argv) > 1 and sys.argv[1] == "kalman_filter":
 		accel_x, accel_y, accel_z = kf_accel_x, kf_accel_y, kf_accel_z
 
 	if len(sys.argv) > 1 and sys.argv[1] == "compl_filter":
 		pitch, roll, yaw = cf_pitch, cf_roll, cf_yaw
+
+	if len(sys.argv) > 1 and sys.argv[1] == "sensor_fusion":
+		pitch, roll, yaw = sf_pitch, sf_roll, sf_yaw
 
 	print("\033[2J")	
 	print('\033[H{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Acceleration:', accel_x, accel_y, accel_z))	# Acceleration (Accounting for Acceleration due to Gravity)
@@ -139,7 +154,7 @@ while True:
 	print('\n')
 	
 	# Rotations with Gyroscope
-	g_gain = 6
+	g_gain = 0.6
 	gyro_rotation['x'] += gyro_x*0.6*dt
 	gyro_rotation['y'] += gyro_y*0.6*dt
 	gyro_rotation['z'] += gyro_z*0.6*dt
@@ -165,6 +180,12 @@ while True:
 	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Position:', pos_x, pos_y, pos_z))
 	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Velocity:', vel_x, vel_y, vel_z))
 	print('{0:15s} ({1:8.3f}, {2:8.3f}, {3:8.3f})'.format('Acceleration:', kf_accel_x, kf_accel_y, kf_accel_z))
+	print('\n')
+
+	print('Sensor Fusion Predictions')
+	print('{0:15s} {1:8.3f}'.format('Roll:', sf_roll))
+	print('{0:15s} {1:8.3f}'.format('Pitch:', sf_pitch))
+	print('{0:15s} {1:8.3f}'.format('Yaw:', sf_yaw))
 	print('\n')
 
 	print('Quaternion: ' + str(euler_to_quaternion(yaw, pitch, roll)))
