@@ -36,8 +36,8 @@ class SensorFusion(Filter):
 	def update(self):
 		accel_x, accel_y, accel_z = self.sensor.acceleration
 		gyro_x, gyro_y, gyro_z = self.sensor.gyro
-		new_state_roll = np.array([gyro_x, math.atan2(acceL_y/(accel_y**2 + accel_z**2))])
-		new_state_pitch = np.array([gyro_y, math.atan2(accel_x/(accel_x**2 + accel_z**2))])
+		new_state_roll = np.array([gyro_x, math.atan2(acceL_y, (accel_y**2 + accel_z**2))])
+		new_state_pitch = np.array([gyro_y, math.atan2(accel_x, (accel_x**2 + accel_z**2))])
 		self.x_roll = self.A.dot(self.x_roll)
 		self.x_pitch = self.A.dot(self.x_pitch)
 		self.P_roll = self.A.dot(self.P_roll).dot(self.A.T) + self.Q

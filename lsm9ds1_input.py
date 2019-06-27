@@ -113,7 +113,7 @@ while True:
 	# Tilt Compensation for Yaw
 	x_flat = mag_x*math.cos(pitch) + mag_y*math.sin(pitch)*math.sin(roll) + mag_z*math.sin(pitch)*math.cos(roll)
 	y_flat = mag_y*math.cos(roll) + mag_z*math.sin(roll)
-	yaw = math.atan2(-y_flat/x_flat) * 180/math.pi
+	yaw = math.atan2(-y_flat, x_flat) * 180/math.pi
 
 
 	# Kalman Filter
@@ -129,7 +129,7 @@ while True:
 	sf_pitch, sf_roll = sf.get_state()
 	x_flat = mag_x*math.cos(sf_pitch) + mag_y*math.sin(sf_pitch)*math.sin(sf_roll) + mag_z*math.sin(sf_pitch)*math.cos(sf_roll)
 	y_flat = mag_y*math.cos(sf_roll) + mag_z*math.sin(sf_roll)
-	sf_yaw = math.atan2(-y_flat/x_flat) * 180/math.pi
+	sf_yaw = math.atan2(-y_flat, x_flat) * 180/math.pi
 
 	if len(sys.argv) > 1 and sys.argv[1] == "kalman_filter":
 		accel_x, accel_y, accel_z = kf_accel_x, kf_accel_y, kf_accel_z
